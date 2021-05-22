@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
-    <title>{% block title %}{{request.session.name}}'s Dashboard{% endblock title %}</title>
-
+    <title>{% block title %}{{request.session.name}}'s Profile{% endblock title %}</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/myStyles.css' %}">
 {% block header %}
     <nav class="navbar is-success is-top-right" role="navigation" aria-label="main-navigation">
         <div class="navbar-brand">
@@ -26,12 +27,12 @@
                 <table class="table is-striped is-bordered is-hoverable">
                     <thead>
                         <tr class="is-selected">
-                            <th>Trip</th>
-                            <th>Coordinator</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Participants</th>
-                            <th>Created At</th>
+                            <th class="is-success">Trip</th>
+                            <th class="is-success">Coordinator</th>
+                            <th class="is-success">Start Date</th>
+                            <th class="is-success">End Date</th>
+                            <th class="is-success">Participants</th>
+                            <th class="is-success">Created At</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,12 +64,12 @@
                 <table class="table is-striped is-bordered is-hoverable">
                     <thead>
                         <tr class="is-selected">
-                            <th>Trip</th>
-                            <th>Coordinator</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Participants</th>
-                            <th>Created At</th>
+                            <th class="is-success">Trip</th>
+                            <th class="is-success">Coordinator</th>
+                            <th class="is-success">Start Date</th>
+                            <th class="is-success">End Date</th>
+                            <th class="is-success">Participants</th>
+                            <th class="is-success">Created At</th>
                         </tr>
                     </thead>
                     <tbody>

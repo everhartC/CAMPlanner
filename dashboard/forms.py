@@ -12,7 +12,7 @@ class TripForm(forms.ModelForm):
         template_name = 'dashboard.html'
         widgets = {
             'name': widgets.BulmaTextInput(attrs={'class': 'control', 'type': 'text'}),
-            'participants': widgets.BulmaMultiSelect(attrs={'class': 'is-focused is-hovered'}),
+            'participants': widgets.BulmaMultiSelect(attrs={'class': 'field'}),
             'start_date': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'field mt-4', 'type': 'date'}),
             'end_date': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'field mt-4', 'type': 'date'}),
         }

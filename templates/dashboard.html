@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
+{% load static %}
     <title>{% block title %}{{request.session.name}}'s Dashboard{% endblock title %}</title>
+    <link rel="stylesheet" href="{% static 'css/myStyles.css' %}">
+{% load widget_tweaks %}
 {% block content %}
     <div class="container">
         <div class="recent_trips">
@@ -8,17 +11,17 @@
                 <table id="rtrips" class="table is-striped is-bordered is-hoverable">
                     <thead>
                         <tr class="is-selected">
-                            <th>Trip</th>
-                            <th>Coordinator</th>
-                            <th>Start Date</th>
-                            <th>End Date</th>
-                            <th>Participants</th>
-                            <th>Created At</th>
+                            <th class="is-success">Trip</th>
+                            <th class="is-success">Coordinator</th>
+                            <th class="is-success">Start Date</th>
+                            <th class="is-success">End Date</th>
+                            <th class="is-success">Participants</th>
+                            <th class="is-success">Created At</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for trip in alltrips %}
-                        <tr>
+                        <tr><ul style="list-style:none">
                             <td><a href="/dashboard/trip/{{trip.id}}">{{trip.name}}</a></td>
                             <td>{{trip.creator.fname}}</td>
                             <td>{{trip.start_date}}</td>
@@ -34,7 +37,7 @@
                             {% endif %}
                             </td>
                             <td>{{trip.created_at}}</td>
-                        </tr>
+                        </ul></tr>
                         {% endfor %}
                     </tbody>
                 </table>
@@ -60,12 +63,12 @@
                         {% if field.name %}
                             <div class="column is-one-quarter">
                                 <label class="label" for="{{field.id_for_label}}">{{field.label}}</label>
-                                {{field}}
+                                {{field|add_class:'form-control'}}
                             </div>
                         {% else %}
                         <div class="column">
                             <label class="label" for="{{field.id_for_label}}">{{ field.label }}</label>
-                            {{field}}
+                            {{field|add_class:'form-control'}}
                         </div>
                         {% endif %}
                     {% endfor %}
@@ -81,3 +84,4 @@
         </div>
     </div>
 {% endblock content %}
+

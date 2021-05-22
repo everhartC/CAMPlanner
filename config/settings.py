@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'bulma_widget',
     'django_simple_bulma',
     'widget_tweaks',
-    'bulma',
 ]
 
 MIDDLEWARE = [
@@ -125,18 +124,23 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
-]
+
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, 'static')
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+
 STATIC_URL = '/static/'
-# STATIC_ROOT = '/static/'
+# STATIC_ROOT = R"C:\envs\djangoPy3Env\Lib\site-packages\bulma\static"
 STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'django_simple_bulma.finders.SimpleBulmaFinder',
 ]
 
-BULMA_SETTINGS = {}
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
@@ -146,5 +150,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+BULMA_SETTINGS = {
+    "extensions": [
+        "bulma-coolcheckboxes",
+        "bulma-fileupload"
+    ],
+    "output_style": "compressed",
+    "fontawesome_token": "e761a01be3",
+    "variables": {
+        "table-row-active-background-color": "success",
+    }
+}
 
 # GOOGLE_MAPS_API_KEY = "AIzaSyCHOQSdCeLg_u_05OTt6zvf1CqRKdJGA6c"
