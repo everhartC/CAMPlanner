@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+    <title>{% block title %}{{request.session.name}}'s Dashboard{% endblock title %}</title>
+
+{% block header %}
+    <nav class="navbar is-success is-top-right" role="navigation" aria-label="main-navigation">
+        <div class="navbar-brand">
+            <h2 class="navbar-item">Welcome, {{request.session.name}}</h2>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a href="/dashboard/" class="navbar-item">Back</a>
+            </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="/myGear/{{user.id}}">My Gear</a>
+                <a class="navbar-item" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+{% endblock header %}
+
+{% block content %}
+    <div class="container">
+        <div class="recent_trips">
+            <h2 class="subtitle mt-4">Trips You Created</h2>
+            <div class="table-container mb-5">
+                <table class="table is-striped is-bordered is-hoverable">
+                    <thead>
+                        <tr class="is-selected">
+                            <th>Trip</th>
+                            <th>Coordinator</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Participants</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for trip in mytrips %}
+                        <tr>
+                            <td><a href="/dashboard/trip/{{trip.id}}">{{trip.name}}</a></td>
+                            <td>{{trip.creator.fname}}</td>
+                            <td>{{trip.start_date}}</td>
+                            <td>{{trip.end_date}}</td>
+                            <td>
+                            {% for users in trip.participants.all %}
+                                {% if users %}
+                                    <li class="no-bullets">{{users.fname}}</li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if not trip.participants.all %}
+                                <li class="no-bullets">No Participants</li>
+                            {% endif %}
+                            </td>
+                            <td>{{trip.created_at}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="recent_trips">
+            <h2 class="subtitle mt-4">Trips You Participated in</h2>
+            <div class="table-container mb-5">
+                <table class="table is-striped is-bordered is-hoverable">
+                    <thead>
+                        <tr class="is-selected">
+                            <th>Trip</th>
+                            <th>Coordinator</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Participants</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for trip in mytrips %}
+                        <tr>
+                            <td><a href="/dashboard/trip/{{trip.id}}">{{trip.name}}</a></td>
+                            <td>{{trip.creator.fname}}</td>
+                            <td>{{trip.start_date}}</td>
+                            <td>{{trip.end_date}}</td>
+                            <td>
+                            {% for users in trip.participants.all %}
+                                {% if users %}
+                                    <li class="no-bullets">{{users.fname}}</li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if not trip.participants.all %}
+                                <li class="no-bullets">No Participants</li>
+                            {% endif %}
+                            </td>
+                            <td>{{trip.created_at}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            {% for gear in mygear %}
+                {{gform.as_p}}
+            {% endfor %}
+        </div>
+{% endblock content %}
+</body>
+</html>

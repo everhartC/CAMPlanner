@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Trip</title>
+</head>
+<body>
+    <nav class="navbar is-primary is-top-right" role="navigation" aria-label="main-navigation">
+        <div class="navbar-brand">
+            <h2 class="navbar-item">Welcome, {{request.session.name}}</h2>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a href="/dashboard/" class="navbar-item">Back</a>
+            </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="/myAccount/{{user.id}}">Edit My Account</a>
+                <a class="navbar-item" href="/myGear/{{user.id}}">Edit My Gear</a>
+                <a class="navbar-item" href="/myTrips/{{user.id}}">Edit My Trips</a>
+                <a class="navbar-item" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <h2 class="subtitle mt-4">{{thistrip.name}}</h2>
+            <div class="table-container mb-5">
+                <table class="table is-striped is-bordered is-hoverable">
+                    <thead>
+                        <tr class="is-selected">
+                            <th>Trip</th>
+                            <th>Coordinator</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Participants</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{thistrip.name}}</td>
+                            <td>{{thistrip.creator.fname}}</td>
+                            <td>{{thistrip.start_date}}</td>
+                            <td>{{thistrip.end_date}}</td>
+                            {% for user in thistrip.participants.all %}
+                                <td rowspan="{{thistrip.particpants.count}}">{{user.fname}} {{user.lname}}</td>
+                            {% endfor %}
+                            <td>{{thistrip.created_at}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        <button class="is-success"><a href="/dashboard/trip/{{thistrip.id}}/edit">Edit Trip</a></button>
+    </div>
+</body>
+</html>

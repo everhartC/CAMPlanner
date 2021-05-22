@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+    <title>{% block title %}Edit Trip{% endblock title %}</title>
+
+{% block header %}
+    <nav class="navbar is-success is-top-right" role="navigation" aria-label="main-navigation">
+        <div class="navbar-brand">
+            <h2 class="navbar-item">Welcome, {{request.session.name}}</h2>
+        </div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a href="/dashboard/" class="navbar-item">Back</a>
+            </div>
+            <div class="navbar-end">
+                <a class="navbar-item" href="/myAccount/{{user.id}}">My Profile</a>
+                <a class="navbar-item" href="/myGear/{{user.id}}">My Gear</a>
+                <a class="navbar-item" href="/logout">Logout</a>
+            </div>
+        </div>
+    </nav>
+{% endblock header %}
+{% block content %}
+    <div class="container">
+        <h2 class="subtitle mt-4">Edit Trip!</h2>
+        <form action="/dashboard/trip/{{thistrip.id}}/edit" method="post">
+        {% csrf_token %}
+            <div class="columns">
+                <div class="column is-one-quarter">
+                    <div class="field">
+                        <label class="label" for="name">Name: </label>
+                        <div class="control">
+                            <input class="input" type="text" name="name" placeholder="{{thistrip.name}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="field">
+                        <div class="select is-multiple is-success">
+                            <label class="label" for="participants">Participants: </label>
+                            <select class="is-focused is-hovered" name="participants" id="users" multiple>
+                            {% for user in allusers %}
+                                <option value="{{user.id}}">{{user.fname}} {{user.lname}}</option>
+                            {% endfor %}
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-one-quarter">
+                    <div class="field">
+                        <div class="control">
+                            <label class="label" for="startdate">Start Date: </label>
+                            <input class="input" type="date" name="startdate" placeholder="{{thistrip.start_date}}">
+                        </div>
+                    </div>
+                </div>
+                <div class="column is-one-quarter">
+                    <div class="field">
+                        <div class="control">
+                            <label class="label" for="enddate">End Date: </label>
+                            <input class="input" type="date" name="enddate">
+                        </div>
+                    </div>
+                </div>
+                        {% comment %} <input type="hidden" name="userid" value="{{request.session.user.id}}"> {% endcomment %}
+            </div>
+            <div class="field">
+                <div class="control">
+                    <input class="button is-success" type="submit" value="Edit Trip">
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock content %}

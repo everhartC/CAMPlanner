@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+    <title>{% block title %}{{request.session.name}}'s Dashboard{% endblock title %}</title>
+{% block content %}
+    <div class="container">
+        <div class="recent_trips">
+            <h2 class="subtitle mt-4">Your Recent Trips</h2>
+            <div class="table-container mb-5">
+                <table id="rtrips" class="table is-striped is-bordered is-hoverable">
+                    <thead>
+                        <tr class="is-selected">
+                            <th>Trip</th>
+                            <th>Coordinator</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Participants</th>
+                            <th>Created At</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for trip in alltrips %}
+                        <tr>
+                            <td><a href="/dashboard/trip/{{trip.id}}">{{trip.name}}</a></td>
+                            <td>{{trip.creator.fname}}</td>
+                            <td>{{trip.start_date}}</td>
+                            <td>{{trip.end_date}}</td>
+                            <td>
+                            {% for users in trip.participants.all %}
+                                {% if users %}
+                                    <li class="no-bullets">{{users.fname}}</li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if not trip.participants.all %}
+                                <li class="no-bullets">No Participants</li>
+                            {% endif %}
+                            </td>
+                            <td>{{trip.created_at}}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <section class="hero is-success has-bg-img">
+            {% comment %} <img class="hero-background is-transparent" src="" alt=""> {% endcomment %}
+            <div class="hero-body">
+                <p class="title">
+                Add a New Trip!
+                </p>
+                <p class="subtitle">
+                Get excited for the trail
+                </p>
+            </div>
+        </section>
+        <div class="block">
+            <div class="tripform">
+                <form action="/dashboard/addTrip" method="post">
+                {% csrf_token %}
+                    <div class="columns mt-4">
+                    {% for field in tripform %}
+                        {% if field.name %}
+                            <div class="column is-one-quarter">
+                                <label class="label" for="{{field.id_for_label}}">{{field.label}}</label>
+                                {{field}}
+                            </div>
+                        {% else %}
+                        <div class="column">
+                            <label class="label" for="{{field.id_for_label}}">{{ field.label }}</label>
+                            {{field}}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                    </div>
+                    
+                    <div class="field">
+                        <div class="control">
+                            <input class="button is-success" type="submit" value="Add Trip">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock content %}
