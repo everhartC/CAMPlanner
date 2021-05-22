@@ -34,8 +34,8 @@ def addTrip(request):
         new_trip = Trip.objects.create(
             name=request.POST['name'],
             creator=this_user,
-            start_date=request.POST['startdate'],
-            end_date=request.POST['enddate'],
+            start_date=request.POST['start_date'],
+            end_date=request.POST['end_date'],
         )
         for participant in participants:
             new_trip.participants.add(User.objects.get(id=int(participant)))
@@ -75,6 +75,7 @@ def editTrip(request, tripid):
     this_trip = Trip.objects.get(id=tripid)
 
     this_trip.name = request.POST['name']
+    this_trip.creator = this_user
     this_trip.participants = request.POST['participants']
     this_trip.start_date = request.POST['startdate']
     this_trip.end_date = request.POST['enddate']
@@ -82,5 +83,3 @@ def editTrip(request, tripid):
     this_trip.save()
     return redirect('viewTrip')
 
-def addGear(request):
-    this_user = User.objects.get(id=request.session['user_id'])

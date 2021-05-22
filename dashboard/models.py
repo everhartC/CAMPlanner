@@ -6,22 +6,49 @@ from django.urls import reverse
 class Trip(models.Model):
     name = models.CharField(max_length=100)
     creator = models.ForeignKey(User, related_name="created_trips", on_delete=models.CASCADE)
-    participants = models.ManyToManyField(User, related_name="users_on_trip")
+    participants = models.ManyToManyField(User, related_name="trips")
     start_date = models.DateField()
     end_date = models.DateField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Trip Name: {self.name}"
+        return f"{self.name}"
+
 
 class Gear(models.Model):
+    
+    CATEGORY_CHOICES = [
+        ('Water', (
+            ('filter', 'Filter'),
+            ('water', 'Water'),
+        )),
+        ('Shelter', (
+            ('tent', 'Tent'),
+            ('tarp', 'Tarp/Rainfly'),
+        )),
+        ('Sleep', (
+            ('bag', 'Sleeping Bag'),
+            ('pad', 'Sleeping Pad'),
+        )),
+        ('Cooking', (
+            ('stove', 'Stove'),
+            ('fuel', 'Fuel'),
+        )),
+        ('food', 'Food'),
+        ('Clothes', (
+            ('pants', 'Pants'),
+            ('shirt', 'Shirt'),
+            ('jacket', 'Jacket'),
+        )),
+    ]
+
     name = models.CharField(max_length=200)
-    category = models.ForeignKey('Category', null=True, blank=True, on_delete=models.CASCADE)
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     link = models.URLField()
     photo = models.ImageField(upload_to='images/')
     owner = models.ForeignKey(User, related_name='gear', on_delete=models.CASCADE)
-    trips = models.ManyToManyField(Trip, related_name="gear_on_trip")
+    trips = models.ManyToManyField(Trip, related_name="trip_gear")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -30,19 +57,6 @@ class Gear(models.Model):
 
     def get_absolute_url(self):
         return reverse("dashboard", args=[str(self.id)])
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=200)
-    parent = models.ForeignKey('self', blank=True, null=True, related_name='children', on_delete=models.CASCADE)
-
-    def __str__(self):
-        full_path = [self.name]
-        k = self.parent
-        while k is not None:
-            full_path.append(k.name)
-            k = k.parent
-        return ' -> '.join(full_path[::-1])
 
 class Message(models.Model):
     msg = models.TextField()

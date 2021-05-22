@@ -11,8 +11,8 @@
                 <a href="/dashboard/" class="navbar-item">Back</a>
             </div>
             <div class="navbar-end">
-                <a class="navbar-item" href="/myAccount/{{user.id}}">My Profile</a>
-                <a class="navbar-item" href="/myGear/{{user.id}}">My Gear</a>
+                <a class="navbar-item" href="/myAccount/{{request.session.user_id}}">My Profile</a>
+                <a class="navbar-item" href="/myGear/{{request.session.user_id}}">My Gear</a>
                 <a class="navbar-item" href="/logout">Logout</a>
             </div>
         </div>

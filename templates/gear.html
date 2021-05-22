@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
-    <title>{% block title %}View Trip{% endblock title %}</title>
+    <title>{% block title %}{{this_user.fname}}'s Gear{% endblock title %}</title>
+{% block css %}
+    {% load django_simple_bulma %}
+    {% load widget_tweaks %}
+    {% bulma %}
+    {% font_awesome %}
+{% endblock css %}
 
 {% block header %}
     <nav class="navbar is-success is-top-right" role="navigation" aria-label="main-navigation">
@@ -12,7 +18,6 @@
             </div>
             <div class="navbar-end">
                 <a class="navbar-item" href="/myAccount/{{request.session.user_id}}">My Profile</a>
-                <a class="navbar-item" href="/myGear/{{request.session.user_id}}">My Gear</a>
                 <a class="navbar-item" href="/logout">Logout</a>
             </div>
         </div>
@@ -20,20 +25,19 @@
 {% endblock header %}
 {% block content %}
     <div class="container">
-        <h2 class="subtitle mt-4">{{thistrip.name}}</h2>
+        <h2 class="subtitle mt-4">Gear List</h2>
         <div class="table-container mb-5">
             <table class="table is-striped is-bordered is-hoverable">
                 <thead>
                     <tr class="is-selected">
-                        <th class="is-success">Trip</th>
-                        <th class="is-success">Coordinator</th>
-                        <th class="is-success">Start Date</th>
-                        <th class="is-success">End Date</th>
-                        <th class="is-success">Participants</th>
-                        <th class="is-success">Created At</th>
+                        <th class="is-success">Name</th>
+                        <th class="is-success">Photo</th>
+                        <th class="is-success">Category</th>
+                        <th class="is-success">Llink</th>
                     </tr>
                 </thead>
                 <tbody>
+                    {% if mygear %}
                     <tr>
                         <td>{{thistrip.name}}</td>
                         <td>{{thistrip.creator.fname}}</td>
@@ -44,10 +48,35 @@
                         {% endfor %}
                         <td>{{thistrip.created_at}}</td>
                     </tr>
+                    {% else %}
+                    <tr>
+                        <td>You don't have any gear!</td>
+                    </tr>
+                    {% endif %}
                 </tbody>
             </table>
         </div>
+        <section class="hero is-success has-bg-img">
+            <div class="hero-body">
+                <p class="title">Add New Gear</p>
+                <p class="subtitle">
+                Gear is tied to your profile so make sure it's updated!
+                </p>
+            </div>
+        </section>
+        <div class="block">
+            <div class="gear-form">
+                <form action="/myAccount/{{this_user.id}}/addGear" method="post">
+                {% csrf_token %}
+                {% for field in gearform %}
+                    <div class="form-group">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        <div class="{{field}}">{{field}}</div>
+                    </div>
+                {% endfor %}
+                </form>
+            </div>
+        </div>
     </div>
-</body>
-</html>
 {% endblock content %}
+

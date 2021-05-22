@@ -2,7 +2,7 @@ from django.http.request import HttpRequest
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from .models import User
-from dashboard.models import Gear, Trip, Category
+from dashboard.models import Gear, Trip
 from dashboard.forms import GearForm
 
 # Create your views here.
@@ -48,13 +48,27 @@ def logout(request):
 
 def profile(request, id):
     this_user = User.objects.get(id=request.session['user_id'])
-    my_trips = Trip.objects.filter(creator=this_user)
+    created_trips = Trip.objects.filter(creator=this_user)
     my_gear = Gear.objects.filter(owner=this_user)
     form = GearForm()
     context = {
         'user': this_user,
-        'mytrips': my_trips,
+        'mytrips': this_user.trips.all(),
+        'created_trips': created_trips,
         'mygear': my_gear,
         'gform': form,
     }
     return render(request, "profile.html", context)
+
+def myGear(request, id):
+    this_user = User.objects.get(id=request.session['user_id'])
+    form = GearForm()
+    my_gear = Gear.objects.filter(owner=this_user)
+
+    context = {
+        'this_user': this_user,
+        'gearform': form,
+        'mygear': my_gear,
+    }
+
+    return render(request, "gear.html", context)

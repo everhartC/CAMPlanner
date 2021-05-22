@@ -44,7 +44,6 @@
             </div>
         </div>
         <section class="hero is-success has-bg-img">
-            {% comment %} <img class="hero-background is-transparent" src="" alt=""> {% endcomment %}
             <div class="hero-body">
                 <p class="title">
                 Add a New Trip!
@@ -70,6 +69,9 @@
                             <label class="label" for="{{field.id_for_label}}">{{ field.label }}</label>
                             {{field|add_class:'form-control'}}
                         </div>
+                        {% endif %}
+                        {% if this_user in field.participants.all %}
+
                         {% endif %}
                     {% endfor %}
                     </div>

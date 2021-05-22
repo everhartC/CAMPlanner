@@ -140,8 +140,6 @@ STATICFILES_FINDERS = [
     'django_simple_bulma.finders.SimpleBulmaFinder',
 ]
 
-
-
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
@@ -151,10 +149,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 BULMA_SETTINGS = {
-    "extensions": [
-        "bulma-coolcheckboxes",
-        "bulma-fileupload"
-    ],
+    "extensions": "all",
     "output_style": "compressed",
     "fontawesome_token": "e761a01be3",
     "variables": {

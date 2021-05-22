@@ -11,8 +11,8 @@ class TripForm(forms.ModelForm):
         exclude = ['creator']
         template_name = 'dashboard.html'
         widgets = {
-            'name': widgets.BulmaTextInput(attrs={'class': 'control', 'type': 'text'}),
-            'participants': widgets.BulmaMultiSelect(attrs={'class': 'field'}),
+            'name': widgets.BulmaTextInput(attrs={'class': 'field', 'type': 'text'}),
+            'participants': widgets.BulmaMultiSelect(attrs={'class': 'field-control'}),
             'start_date': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'field mt-4', 'type': 'date'}),
             'end_date': forms.DateInput(format=('%m/%d/%Y'), attrs={'class':'field mt-4', 'type': 'date'}),
         }
@@ -21,8 +21,12 @@ class TripForm(forms.ModelForm):
 class GearForm(forms.ModelForm):
     class Meta:
         model = Gear
-        fields = '__all__'
-        template_name = 'dashboard.html'
+        exclude = ['owner']
+        template_name = 'gear.html'
+        widgets = {
+            'name': widgets.BulmaTextInput(attrs={'class': 'control', 'type': 'text'}),
+            'category': widgets.BulmaSelect(attrs={'class': 'field', 'type': 'text'}),
+        }
         
 
 

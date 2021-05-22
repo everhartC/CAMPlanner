@@ -1,4 +1,11 @@
 {% load static %}
+
+{% block css %}
+    {% load django_simple_bulma %}
+    {% load widget_tweaks %}
+    {% bulma %}
+    {% font_awesome %}
+{% endblock css %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,12 +13,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}{% endblock title %}</title>
-{% block css %}
-    {% load django_simple_bulma %}
-    {% load widget_tweaks %}
-    {% bulma %}
-    {% font_awesome %}
-{% endblock css %}
+
 </head>
 <body>
 {% block header %}
@@ -22,7 +24,7 @@
         <div class="navbar-menu">
             <div class="navbar-end">
                 <a class="navbar-item" href="/myAccount/{{request.session.user_id}}">My Profile</a>
-                <a class="navbar-item" href="/myGear/{{request.session.user_id}}">My Gear</a>
+                <a class="navbar-item" href="/myAccount/{{request.session.user_id}}/myGear">My Gear</a>
                 <a class="navbar-item" href="/logout">Logout</a>
             </div>
         </div>

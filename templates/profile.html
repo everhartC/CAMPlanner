@@ -12,7 +12,7 @@
                 <a href="/dashboard/" class="navbar-item">Back</a>
             </div>
             <div class="navbar-end">
-                <a class="navbar-item" href="/myGear/{{user.id}}">My Gear</a>
+                <a class="navbar-item" href="/myAccount/{{request.session.user_id}}/myGear">My Gear</a>
                 <a class="navbar-item" href="/logout">Logout</a>
             </div>
         </div>
@@ -36,7 +36,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        {% for trip in mytrips %}
+                        {% for trip in created_trips %}
                         <tr>
                             <td><a href="/dashboard/trip/{{trip.id}}">{{trip.name}}</a></td>
                             <td>{{trip.creator.fname}}</td>
