@@ -21,11 +21,13 @@ class TripForm(forms.ModelForm):
 class GearForm(forms.ModelForm):
     class Meta:
         model = Gear
-        exclude = ['owner']
+        exclude = ['owner', 'trips']
         template_name = 'gear.html'
         widgets = {
-            'name': widgets.BulmaTextInput(attrs={'class': 'control', 'type': 'text'}),
+            'name': widgets.BulmaTextInput(attrs={'class': 'field is-half', 'type': 'text'}),
             'category': widgets.BulmaSelect(attrs={'class': 'field', 'type': 'text'}),
+            'link': widgets.BulmaTextInput(attrs={'class': 'field is-fullwidth', 'type': 'text'}),
+            # 'photo': widgets.BulmaFileInput(attrs={'class': 'file', 'type': 'file'}),
         }
         
 

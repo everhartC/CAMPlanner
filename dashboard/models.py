@@ -46,17 +46,14 @@ class Gear(models.Model):
     name = models.CharField(max_length=200)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
     link = models.URLField()
-    photo = models.ImageField(upload_to='images/')
-    owner = models.ForeignKey(User, related_name='gear', on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to='images/', null=True, blank=True)
+    owner = models.ForeignKey(User, related_name='my_gear', on_delete=models.CASCADE)
     trips = models.ManyToManyField(Trip, related_name="trip_gear")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"Gear: {self.name}"
-
-    def get_absolute_url(self):
-        return reverse("dashboard", args=[str(self.id)])
+        return f"{self.name}"
 
 class Message(models.Model):
     msg = models.TextField()

@@ -1,10 +1,13 @@
 {% extends 'base.html' %}
+{% load static %}
     <title>{% block title %}{{this_user.fname}}'s Gear{% endblock title %}</title>
 {% block css %}
     {% load django_simple_bulma %}
     {% load widget_tweaks %}
     {% bulma %}
     {% font_awesome %}
+    <style>
+    </style>
 {% endblock css %}
 
 {% block header %}
@@ -27,27 +30,33 @@
     <div class="container">
         <h2 class="subtitle mt-4">Gear List</h2>
         <div class="table-container mb-5">
-            <table class="table is-striped is-bordered is-hoverable">
+            <table class="table is-centered is-striped is-bordered is-hoverable">
                 <thead>
                     <tr class="is-selected">
                         <th class="is-success">Name</th>
                         <th class="is-success">Photo</th>
                         <th class="is-success">Category</th>
-                        <th class="is-success">Llink</th>
+                        <th class="is-success">Link</th>
+                        <th class="is-danger">Action</th>
                     </tr>
                 </thead>
                 <tbody>
                     {% if mygear %}
+                    {% for gear in mygear %}
                     <tr>
-                        <td>{{thistrip.name}}</td>
-                        <td>{{thistrip.creator.fname}}</td>
+                        <td>{{gear.name}}</td>
+                        {% if gear.photo %}
+                        <td>
+                            <figure class="image is-64x64">
+                                <img class="is-fullwidth" src="{{gear.photo.url}}">
+                            </figure>
+                        </td>
+                        {% endif %}
                         <td>{{thistrip.start_date}}</td>
                         <td>{{thistrip.end_date}}</td>
-                        {% for user in thistrip.participants.all %}
-                            <td rowspan="{{thistrip.particpants.count}}">{{user.fname}} {{user.lname}}</td>
-                        {% endfor %}
-                        <td>{{thistrip.created_at}}</td>
+                        <td><a href="/myAccount/{{this_user.id}}/deleteGear">Delete?</a></td>
                     </tr>
+                    {% endfor %}
                     {% else %}
                     <tr>
                         <td>You don't have any gear!</td>
@@ -66,14 +75,27 @@
         </section>
         <div class="block">
             <div class="gear-form">
-                <form action="/myAccount/{{this_user.id}}/addGear" method="post">
+                <form action="/myAccount/{{this_user.id}}/myGear" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
                 {% for field in gearform %}
-                    <div class="form-group">
-                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-                        <div class="{{field}}">{{field}}</div>
+                    <div class="field is-horizontal">
+                        <div class="field-label is-normal">
+                            <label class="label">{{field.label}}</label>
+                        </div>
+                        <div class="field-body">
+                            <div class="field">
+                                <div class="control">
+                                    {{field}}
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 {% endfor %}
+                    <div class="field">
+                        <div class="control">
+                            <input type="submit" class="button is-success" value="Add Gear!">
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

@@ -4,6 +4,8 @@ from django.contrib import messages
 from .models import User
 from dashboard.models import Gear, Trip
 from dashboard.forms import GearForm
+from django.conf import settings
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 def index(request):
@@ -65,10 +67,30 @@ def myGear(request, id):
     form = GearForm()
     my_gear = Gear.objects.filter(owner=this_user)
 
-    context = {
-        'this_user': this_user,
-        'gearform': form,
-        'mygear': my_gear,
-    }
+    if request.method == "POST":
+        form = GearForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.owner = this_user
+            obj.save()
 
-    return render(request, "gear.html", context)
+
+        # new_gear = Gear.objects.create(
+        #     name = request.POST['name'],
+        #     category = request.POST['category'],
+        #     link = request.POST['link'],
+        #     photo = uploaded_file_url,
+        #     owner = this_user,
+        # )
+        return redirect(f'/myAccount/{this_user.id}/myGear')
+
+
+    if request.method == "GET":
+        context = {
+            'this_user': this_user,
+            'gearform': form,
+            'mygear': my_gear,
+        }
+
+        return render(request, "gear.html", context)
+    
