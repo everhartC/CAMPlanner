@@ -45,7 +45,7 @@ class Gear(models.Model):
 
     name = models.CharField(max_length=200)
     category = models.CharField(max_length=20, choices=CATEGORY_CHOICES)
-    link = models.URLField()
+    link = models.URLField(null=True, blank=True)
     photo = models.ImageField(upload_to='images/', null=True, blank=True)
     owner = models.ForeignKey(User, related_name='my_gear', on_delete=models.CASCADE)
     trips = models.ManyToManyField(Trip, related_name="trip_gear")
@@ -56,8 +56,11 @@ class Gear(models.Model):
         return f"{self.name}"
 
 class Message(models.Model):
-    msg = models.TextField()
+    msg = models.TextField(blank=True, null=True)
     user_who_posted = models.ForeignKey(User, related_name="comment", on_delete=models.CASCADE)
     trip = models.ForeignKey(Trip, related_name="trip_comment", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str(self):
+        return f"{self.msg}"

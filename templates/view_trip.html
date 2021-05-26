@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
     <title>{% block title %}View Trip{% endblock title %}</title>
-
+{% comment %} {% load widget_tweaks %} {% endcomment %}
 {% block header %}
     <nav class="navbar is-success is-top-right" role="navigation" aria-label="main-navigation">
         <div class="navbar-brand">
@@ -12,7 +12,7 @@
             </div>
             <div class="navbar-end">
                 <a class="navbar-item" href="/myAccount/{{request.session.user_id}}">My Profile</a>
-                <a class="navbar-item" href="/myGear/{{request.session.user_id}}">My Gear</a>
+                <a class="navbar-item" href="/myAccount/{{request.session.user_id}}/myGear">My Gear</a>
                 <a class="navbar-item" href="/logout">Logout</a>
             </div>
         </div>
@@ -22,7 +22,7 @@
     <div class="container">
         <h2 class="subtitle mt-4">{{thistrip.name}}</h2>
         <div class="table-container mb-5">
-            <table class="table is-striped is-bordered is-hoverable">
+            <table class="table is-striped is-bordered is-hoverable is-fullwidth">
                 <thead>
                     <tr class="is-selected">
                         <th class="is-success">Trip</th>
@@ -47,6 +47,37 @@
                 </tbody>
             </table>
         </div>
+        <article class="media">
+            <div class="media-content">
+                <div class="content">
+                    {% for msg in all_msgs %}
+                    <p>
+                        <strong>{{msg.user_who_posted}}</strong> <small>Posted at: {{msg.created_at}}</small>
+                        <br>
+                        {{msg.msg}}
+                    </p>
+                    {% endfor %}
+                </div>
+            </div>
+        </article>
+        <article class="media">
+            <div class="media-content">
+                <form action="/dashboard/trip/{{thistrip.id}}/addMsg" method="post">
+                {% csrf_token %}
+                    <div class="field">
+                        <p class="control">
+                            <label class="label" for="msg">Comments</label>
+                            <textarea class="textarea is-small is-success" name="msg" id="msg" placeholder="Enter a comment"></textarea>
+                        </p>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input type="submit" class="button is-success" value="Add Comment">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </article>
     </div>
 </body>
 </html>

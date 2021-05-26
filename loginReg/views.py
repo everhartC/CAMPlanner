@@ -49,7 +49,7 @@ def logout(request):
     return redirect('/')
 
 def profile(request, id):
-    this_user = User.objects.get(id=request.session['user_id'])
+    this_user = User.objects.get(id=id)
     created_trips = Trip.objects.filter(creator=this_user)
     my_gear = Gear.objects.filter(owner=this_user)
     form = GearForm()
@@ -63,7 +63,7 @@ def profile(request, id):
     return render(request, "profile.html", context)
 
 def myGear(request, id):
-    this_user = User.objects.get(id=request.session['user_id'])
+    this_user = User.objects.get(id=id)
     form = GearForm()
     my_gear = Gear.objects.filter(owner=this_user)
 
@@ -82,7 +82,7 @@ def myGear(request, id):
         #     photo = uploaded_file_url,
         #     owner = this_user,
         # )
-        return redirect(f'/myAccount/{this_user.id}/myGear')
+        return redirect(f'/myAccount/{id}/myGear')
 
 
     if request.method == "GET":
@@ -93,4 +93,12 @@ def myGear(request, id):
         }
 
         return render(request, "gear.html", context)
+
+def deleteGear(request, uid, gid):
+    gear_to_delete = Gear.objects.get(id=gid)
+    gear_to_delete.delete()
+
+    return redirect(f'/myAccount/{uid}/myGear')
+
+
     

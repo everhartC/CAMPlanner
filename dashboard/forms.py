@@ -35,5 +35,8 @@ class GearForm(forms.ModelForm):
 class MessageForm(forms.ModelForm):
     class Meta:
         model = Message
-        fields = '__all__'
-        template_name = 'dashboard.html'
+        fields = ['msg']
+        template_name = 'view_trip.html'
+        # widgets = {
+        #     'msg': widgets.BulmaTextarea(attrs={'class': 'textarea is-small is-success', 'placeholder': 'Add a comment...'}),
+        # }

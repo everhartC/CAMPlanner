@@ -19,56 +19,100 @@
     </nav>
 {% endblock header %}
 {% block content %}
-    <div class="container">
-        <h2 class="subtitle mt-4">Edit Trip!</h2>
-        <form action="/dashboard/trip/{{thistrip.id}}/edit" method="post">
-        {% csrf_token %}
-            <div class="columns">
-                <div class="column is-one-quarter">
-                    <div class="field">
-                        <label class="label" for="name">Name: </label>
-                        <div class="control">
-                            <input class="input" type="text" name="name" placeholder="{{thistrip.name}}">
+<div class="tile is-ancestor">
+    <div class="tile is-parent is-vertical is-6">
+        <div class="tile is-child box">
+            <h2 class="subtitle mt-4">Edit Trip!</h2>
+            <form action="/dashboard/trip/{{thistrip.id}}/edit" method="post">
+            {% csrf_token %}
+                <div class="columns">
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="name">Name: </label>
+                            <div class="control">
+                                <input class="input" type="text" name="name" placeholder="{{thistrip.name}}">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column is-offset-1">
+                        <div class="field">
+                            <div class="select is-multiple is-success">
+                                <label class="label" for="participants">Participants: </label>
+                                <select class="is-focused is-hovered" name="participants" id="users" multiple>
+                                {% for user in allusers %}
+                                    <option value="{{user.id}}">{{user.fname}} {{user.lname}}</option>
+                                {% endfor %}
+                                </select>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="column is-half">
-                    <div class="field">
-                        <div class="select is-multiple is-success">
-                            <label class="label" for="participants">Participants: </label>
-                            <select class="is-focused is-hovered" name="participants" id="users" multiple>
-                            {% for user in allusers %}
-                                <option value="{{user.id}}">{{user.fname}} {{user.lname}}</option>
-                            {% endfor %}
-                            </select>
+                <div class="columns">
+                    <div class="column is-two-fifths">
+                        <div class="field">
+                            <div class="control">
+                                <label class="label" for="startdate">Start Date: </label>
+                                <input class="input" type="date" name="startdate" placeholder="{{thistrip.start_date}}">
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column is-one-quarter">
-                    <div class="field">
-                        <div class="control">
-                            <label class="label" for="startdate">Start Date: </label>
-                            <input class="input" type="date" name="startdate" placeholder="{{thistrip.start_date}}">
+                    <div class="column is-two-fifths is-offset-1">
+                        <div class="field">
+                            <div class="control">
+                                <label class="label" for="enddate">End Date: </label>
+                                <input class="input" type="date" name="enddate">
+                            </div>
                         </div>
                     </div>
+                            {% comment %} <input type="hidden" name="userid" value="{{request.session.user.id}}"> {% endcomment %}
                 </div>
-                <div class="column is-one-quarter">
-                    <div class="field">
-                        <div class="control">
-                            <label class="label" for="enddate">End Date: </label>
-                            <input class="input" type="date" name="enddate">
-                        </div>
+                <div class="field">
+                    <div class="control">
+                        <input class="button is-success" type="submit" value="Edit Trip">
                     </div>
                 </div>
-                        {% comment %} <input type="hidden" name="userid" value="{{request.session.user.id}}"> {% endcomment %}
-            </div>
-            <div class="field">
-                <div class="control">
-                    <input class="button is-success" type="submit" value="Edit Trip">
-                </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
+    <div class="tile is-parent is-vertical">
+
+        <article class="media">
+            <div class="media-content">
+                <div class="content">
+                {% if all_msgs %}
+                    {% for msg in all_msgs %}
+                    <p>
+                        <strong>{{msg.user_who_posted}}</strong> <small>Posted at: {{msg.created_at}}</small>
+                        <br>
+                        {{msg.msg}}
+                    </p>
+                    {% endfor %}
+                    {% else %}
+                    <p>
+                        <strong><em>No messages for this trip</em></strong>
+                    </p>
+                {% endif %}
+                </div>
+            </div>
+        </article>
+        <article class="media">
+            <div class="media-content">
+                <form action="/dashboard/trip/{{thistrip.id}}/addMsg" method="post">
+                {% csrf_token %}
+                    <div class="field">
+                        <p class="control">
+                            <label class="label" for="msg">Comment</label>
+                            <textarea class="textarea is-small is-success" name="msg" id="msg" placeholder="Enter a comment"></textarea>
+                        </p>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input type="submit" class="button is-success" value="Add Comment">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </article>
+    </div>
+</div>
 {% endblock content %}

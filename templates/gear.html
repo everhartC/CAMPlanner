@@ -30,14 +30,16 @@
     <div class="container">
         <h2 class="subtitle mt-4">Gear List</h2>
         <div class="table-container mb-5">
-            <table class="table is-centered is-striped is-bordered is-hoverable">
+            <table class="table is-centered is-striped is-bordered is-hoverable is-fullwidth">
                 <thead>
                     <tr class="is-selected">
                         <th class="is-success">Name</th>
                         <th class="is-success">Photo</th>
                         <th class="is-success">Category</th>
                         <th class="is-success">Link</th>
-                        <th class="is-danger">Action</th>
+                        {% if request.session.user_id == this_user.id %}
+                            <th class="is-danger">Action</th>
+                        {% endif %}
                     </tr>
                 </thead>
                 <tbody>
@@ -47,14 +49,16 @@
                         <td>{{gear.name}}</td>
                         {% if gear.photo %}
                         <td>
-                            <figure class="image is-64x64">
+                            <figure class="image is-3by4">
                                 <img class="is-fullwidth" src="{{gear.photo.url}}">
                             </figure>
                         </td>
                         {% endif %}
                         <td>{{gear.category}}</td>
                         <td>{{gear.link}}</td>
-                        <td><a href="/myAccount/{{this_user.id}}/deleteGear">Delete?</a></td>
+                        {% if request.session.user_id == this_user.id %}
+                            <td><a href="/myAccount/{{this_user.id}}/myGear/{{gear.id}}/delete">Delete?</a></td>
+                        {% endif %}
                     </tr>
                     {% endfor %}
                     {% else %}
