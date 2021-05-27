@@ -17,10 +17,17 @@
             grid-template-columns: auto auto;
             grid-column-gap: 15px;
         }
+        .hero {
+            background-image: url('/static/images/hikingbg.webp');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            opacity: 0.8;
+        }
     </style>
 </head>
 <body>
-    <section class="hero has-background-white-ter is-fullheight">
+    <section class="hero is-fullheight">
         <div class="hero-body">
             <div class="container">
                 {% if messages %}

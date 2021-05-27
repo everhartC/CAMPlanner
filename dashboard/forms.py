@@ -22,7 +22,7 @@ class GearForm(forms.ModelForm):
     class Meta:
         model = Gear
         exclude = ['owner', 'trips']
-        template_name = 'gear.html'
+        template_name = 'profile.html'
         widgets = {
             'name': widgets.BulmaTextInput(attrs={'class': 'field is-half', 'type': 'text'}),
             'category': widgets.BulmaSelect(attrs={'class': 'field', 'type': 'text'}),

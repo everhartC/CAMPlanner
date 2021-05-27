@@ -97,7 +97,7 @@
                         <strong>Posted by: {{msg.user_who_posted}}</strong>
                         
                         {% if this_user.id == msg.user_who_posted.id %}
-                            <button class="delete" aria-label="delete" id="dbtn"></button>
+                            <button class="delete" aria-label="delete" id="dbtn" onclick="window.location.href='/dashboard/user/{{this_user.id}}/deleteMsg/{{msg.id}}'"></button>
                         {% endif %}
                     </div>
                     <div class="message-body">

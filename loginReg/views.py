@@ -53,14 +53,25 @@ def profile(request, id):
     created_trips = Trip.objects.filter(creator=this_user)
     my_gear = Gear.objects.filter(owner=this_user)
     form = GearForm()
-    context = {
-        'user': this_user,
-        'mytrips': this_user.trips.all(),
-        'created_trips': created_trips,
-        'mygear': my_gear,
-        'gform': form,
-    }
-    return render(request, "profile.html", context)
+
+    if request.method == "GET":
+        context = {
+            'this_user': this_user,
+            'mytrips': this_user.trips.all(),
+            'created_trips': created_trips,
+            'mygear': my_gear,
+            'gearform': form,
+            
+        }
+        return render(request, "profile.html", context)
+
+    if request.method == "POST":
+        form = GearForm(request.POST, request.FILES)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.owner = this_user
+            obj.save()
+        return redirect(f'/myAccount/{id}')
 
 def myGear(request, id):
     this_user = User.objects.get(id=id)

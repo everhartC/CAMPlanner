@@ -8,7 +8,7 @@
         </div>
         <div class="navbar-menu">
             <div class="navbar-start">
-                <a href="/dashboard/" class="navbar-item">Back</a>
+                <a onclick="history.back()" class="navbar-item">Back</a>
             </div>
             <div class="navbar-end">
                 <a class="navbar-item" href="/myAccount/{{request.session.user_id}}">My Profile</a>
